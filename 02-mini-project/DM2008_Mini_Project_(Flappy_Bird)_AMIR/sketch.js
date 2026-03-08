@@ -3,6 +3,8 @@ let bird;
 let birdImg;
 let pipes = [];
 let bg;
+let bgm;
+let jump;
 let endsound;
 let myFont;
 
@@ -22,7 +24,9 @@ function preload() {
   bg = loadImage("assets/bg.png");
   myFont = loadFont("assets/Hybrid_b.ttf");
   endImg = loadImage("assets/end.png");
-  endsound = loadSound("assets/bye-bye-lumi-athena-sfx.mp3");
+  endsound = loadSound("assets/end.wav");
+  bgm = loadSound("assets/soundtrack.mp3");
+  jump =loadSound("assets/jump.wav");
 }
 
 /* ----------------- Setup & Draw ----------------- */
@@ -31,6 +35,8 @@ function setup() {
   noStroke();
   bird = new Bird(120, height / 2);
   pipes.push(new Pipe(width + 40));
+  bgm.loop();
+  
 }
 
 function draw() {
@@ -87,11 +93,9 @@ function draw() {
     // SCORE
     push();
     fill(0);
-    stroke(158, 225, 255);
-    strokeWeight(3);
     textFont(myFont);
     textSize(60);
-    text(score, width / 2, 50);
+    text(score, width / 2, 47);
     pop();
 
     // TOUCHING GROUND
@@ -105,20 +109,28 @@ function draw() {
     bird.show();
     for (let p of pipes) p.show();
     
-    endsound.play();
-    hasPlayed = true;
+   endsound.play();
+   endsound.setVolume(0.3);
+   hasPlayed = true;
 
+      
+    fill(158, 225, 255, 95);
+   rect(0,0,width, height);
+    
     image(endImg, width / 2, height / 2, 450, 450);
 
     fill(158, 225, 255);
     textAlign(CENTER, CENTER);
     textFont(myFont);
-    textSize(55);
-    text("you died!", width / 2, 290);
+    textSize(50);
+    text("you died.", width / 2, height/ 2 - 65);
 
-    fill(158, 225, 255);
     textSize(35);
-    text("Score: " + score, width / 2, 330);
+    text("Score: " + score, width / 2, height/ 2 - 30);
+    
+    fill(252, 252, 3);
+    textSize(29);
+    text("(tap to retry)", width / 2, height/ 2 + 15);
 
     noLoop();
   }
